@@ -38,7 +38,7 @@ public class Solution {
 }
 ```
  - Know how to destructure a number into bits (&, >>) -> Bitwise and of any number with 1 will give you the last bit of the number. When you right shift that number by 1 you essentially drop the rightmsot (lsb) bit, so now the rightmost bit is the next previous bit...so when you then do & yull get that.
- - **Construct - 1** : 
+ - **Construct - 1 : Destructure Bits** : 
  - ```
    while(num>0)
    {
@@ -47,7 +47,7 @@ public class Solution {
    }
    ```
  - How to insert bits into a number [make a mask and |] (|, <<)
- - **Construct - 2**  : 
+ - **Construct - 2 : Inject Bits**  : 
  - ```
    //To put 1 as the nth bit
    res = 0;

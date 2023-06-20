@@ -2,7 +2,8 @@
 
 ## 19 Jun 2023 : Monday
 
-LC : 190 : Reverse bits : https://leetcode.com/problems/reverse-bits/description/
+### LC : 190 Reverse bits 
+ https://leetcode.com/problems/reverse-bits/description/
 
 ```
 public class Solution {
@@ -63,3 +64,64 @@ public class Solution {
  - Know that since it is UNSIGNED, you cant use a while num>0 condition , num can be neg too. So you need to know the size of the unsigned int --> 32. 
  - https://youtu.be/WnPLSRLSANE
   
+  ### LC: 371 : Sum of Two Integers
+  https://leetcode.com/problems/sum-of-two-integers/description/
+
+  ```
+  public class Solution {
+    public int GetSum(int a, int b) {
+        int res = 0;
+        int carry = 0;
+        for(int i =0; i<32; i++)
+        {
+            int bitRes = 0;
+            int lsb_a  = a & 1;
+            int lsb_b = b & 1;
+            
+            if(carry == 0){
+
+                if((lsb_a==1 && lsb_b ==0) || (lsb_a==0 && lsb_b==1))
+                {
+                    bitRes = 1;
+                }
+                else if(lsb_a ==1 && lsb_b == 1)
+                {
+                    bitRes=0;
+                    carry = 1; 
+                }
+                else
+                {
+                    bitRes = 0; 
+                }
+            }
+            else{
+                if((lsb_a==1 && lsb_b ==0) || (lsb_a==0 && lsb_b==1))
+                {
+                    bitRes = 0;
+                    carry =1;
+                }
+                else if(lsb_a ==1 && lsb_b == 1)
+                {
+                    bitRes=1;
+                    carry = 1; 
+                }
+                else
+                {
+                    bitRes = 1; 
+                    carry = 0;
+                }
+            }
+        res = res | (bitRes << i);
+
+        a = a >>1;
+        b = b >>1;
+
+        }   
+    return res; 
+    }
+
+}
+  ```
+- Naive solution - bitwise addition.
+- Know : **0+0 = 0. 1+0 or 0+1 = 1, 1+1 = 0 with C=1, 1+1+1 = 1 with C=1**
+- Use Constructs 1, 2

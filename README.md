@@ -155,7 +155,7 @@ public class Solution {
 
 ### LC 7 : Reverse Integer
 https://leetcode.com/problems/reverse-integer/description/
-> My Solution
+#### My Quirky Solution
 ```
 public class Solution {
     public int Reverse(int x) {
@@ -170,6 +170,7 @@ public class Solution {
 
         var digitArray = DestructureNumber(x);
 
+        //!! ALERT  - QUIRK !!!
         if(Math.Pow(10, digitArray.Count()-1) > int.MaxValue)
         return 0; 
 
@@ -245,3 +246,74 @@ public class Solution {
 
            index++; 
         } ```
+
+- **QUIRK** : This solution works because of two C# quirks. In C#, the actual way to convert a negative to a positive number is to use Math.Abs. But that won't do the conversion for large integers.
+- ```
+   x = -x 
+  ```
+- Performs the conversion upto the limit of int.MinValue, so it will work till -2147483647. For -2147483648, it will remain -2147483648. So  in the above logic, for -2147483648, DestructureNumbers returns 0. Therefore, 
+- ```
+  Math.Pow(10, digitArray.Count()-1) // is calculating 10^-1
+
+  ```
+- 10^-1 is 0.1 which is a double, and it overflows the INT type, and so the  ```if(Math.Pow(10, digitArray.Count()-1)> int.MaxValue)``` is true and 0 is returned. 
+
+#### Solution Without Quirk :
+```
+public class Solution {
+    public int Reverse(int x) {
+        if(x==0 || x==int.MinValue) //Notice
+         return 0; 
+
+        bool isNegative = false;
+        int result = 0; 
+        if(x<0)
+        {
+        isNegative = true;
+        x = -x;  //make positive
+        }
+
+        var digitArray = DestructureNumber(x);
+        if(Math.Pow(10, digitArray.Count()-1) * digitArray[0]> int.MaxValue) // if the first digit of result is > MaxInt, return 0.
+        return 0; 
+
+        int index = 0;
+
+        for(int i = digitArray.Count()-1 ; i>=0 && result < int.MaxValue; i--)
+        {
+           
+           //Crux : Store intermediate result in a double. If you store it in an int, it will overflow
+           //and the bound check will never work. 
+           double actualResult = result + digitArray[index] * Math.Pow(10, i); 
+            
+           if(actualResult > int.MaxValue)
+           return 0; 
+
+           result = (int)actualResult; 
+
+           index++; 
+        }
+
+        if(isNegative)
+        return -result; 
+
+        return result; 
+
+    }
+
+    public List<int> DestructureNumber(int n)
+    {
+        var list = new List<int>();
+        while(n>0)
+        {
+            int lastDigit = n%10;
+            list.Add(lastDigit);
+            n = n/10; 
+        }
+        return list; 
+    }
+}
+
+```
+- If the first digit of the result is greater than the MaxInt, return 0.
+- To prevent all the quirks, if input is the Min Int value return 0. Otherise the 0 indexing here ```if(Math.Pow(10, digitArray.Count()-1) * digitArray[0]> int.MaxValue)``` will throw an exception. (digitArray will be empty)

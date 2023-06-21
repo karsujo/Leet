@@ -317,3 +317,5 @@ public class Solution {
 ```
 - If the first digit of the result is greater than the MaxInt, return 0.
 - To prevent all the quirks, if input is the Min Int value return 0. Otherise the 0 indexing here ```if(Math.Pow(10, digitArray.Count()-1) * digitArray[0]> int.MaxValue)``` will throw an exception. (digitArray will be empty)
+- **Optimize** : Do the destructuring and constructing in the same loop. 
+- Refer : https://www.youtube.com/watch?v=HAgLH58IgJQ

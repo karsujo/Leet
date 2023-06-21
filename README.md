@@ -66,7 +66,7 @@ public class Solution {
   
   ### LC: 371 : Sum of Two Integers
   https://leetcode.com/problems/sum-of-two-integers/description/
-
+> My Solution: 
   ```
   public class Solution {
     public int GetSum(int a, int b) {
@@ -155,6 +155,7 @@ public class Solution {
 
 ### LC 7 : Reverse Integer
 https://leetcode.com/problems/reverse-integer/description/
+> My Solution
 ```
 public class Solution {
     public int Reverse(int x) {
@@ -210,6 +211,7 @@ public class Solution {
 }
 ```
 - Straightforward approach. Split and reconstruct numbers.
+- Know : Store temp result in a larger datatype (double), and do a bound check.
 - **Construct - 3 : Destructure Number :**
 - ```
     public List<int> DestructureNumber(int n)

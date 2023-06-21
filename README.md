@@ -2,7 +2,7 @@
 
 ## 19 Jun 2023 : Monday
 
-### LC : 190 Reverse bits 
+### LC : 190 Reverse bits* 
  https://leetcode.com/problems/reverse-bits/description/
 
 ```
@@ -127,7 +127,9 @@ public class Solution {
 - Know : **0+0 = 0. 1+0 or 0+1 = 1, 1+1 = 0 with C=1, 1+1+1 = 1 with C=1**. This can be encapsulated by the **XOR** operator. XOR is 1 if the input bits are different, else zero. 
 - Use Constructs 1, 2
 
-#### Solution 2
+## 20 June 2023 : Tuesday
+
+#### Solution 2*
 - **Heuristic 1 : XOR-ing and AND-ing is Addition**
 - Using the fact that bitwise addition can be encapsulated by XOR, we can show that the XOR can be applied to the entire number (not only bit by bit) and that will essentially perform the bitwise addition. However, the carry will not be taken care of. 
 - Therefore a+b == a ^ b (except carry).
@@ -149,3 +151,95 @@ public class Solution {
     }
   ```
 - Refer https://youtu.be/gVUrDV4tZfY
+
+
+### LC 7 : Reverse Integer
+https://leetcode.com/problems/reverse-integer/description/
+```
+public class Solution {
+    public int Reverse(int x) {
+
+        bool isNegative = false;
+        int result = 0; 
+        if(x<0)
+        {
+        isNegative = true;
+        x = -x; //make positive
+        }
+
+        var digitArray = DestructureNumber(x);
+
+        if(Math.Pow(10, digitArray.Count()-1) > int.MaxValue)
+        return 0; 
+
+        int index = 0;
+
+        for(int i = digitArray.Count()-1 ; i>=0 && result < int.MaxValue; i--)
+        {
+           
+           //Crux : Store intermediate result in a double. If you store it in an int, it will overflow
+           //and the bound check will never work. 
+           double actualResult = result + digitArray[index] * Math.Pow(10, i); 
+            
+           if(actualResult > int.MaxValue)
+           return 0; 
+
+           result = (int)actualResult; 
+
+           index++; 
+        }
+
+        if(isNegative)
+        return -result; 
+
+        return result; 
+
+    }
+
+    public List<int> DestructureNumber(int n)
+    {
+        var list = new List<int>();
+        while(n>0)
+        {
+            int lastDigit = n%10;
+            list.Add(lastDigit);
+            n = n/10; 
+        }
+        return list; 
+    }
+}
+```
+- Straightforward approach. Split and reconstruct numbers.
+- **Construct - 3 : Destructure Number :**
+- ```
+    public List<int> DestructureNumber(int n)
+    {
+        var list = new List<int>();
+        while(n>0)
+        {
+            int lastDigit = n%10; //remainder = last digit
+            list.Add(lastDigit); 
+            n = n/10; // drop last digit
+        }
+        return list; 
+    }
+  ```
+- **Construct - 4 : Construct Number :**
+- ```
+
+        int index = 0;
+
+        for(int i = digitArray.Count()-1 ; i>=0 && result < int.MaxValue; i--)
+        {
+           
+           //Crux : Store intermediate result in a double. If you store it in an int, it will overflow
+           //and the bound check will never work. 
+           double actualResult = **result + digitArray[index] * Math.Pow(10, i); **
+            
+           if(actualResult > int.MaxValue)
+           return 0; 
+
+           result = (int)actualResult; 
+
+           index++; 
+        } ```

@@ -122,6 +122,30 @@ public class Solution {
 
 }
   ```
+#### Solution 1
 - Naive solution - bitwise addition.
-- Know : **0+0 = 0. 1+0 or 0+1 = 1, 1+1 = 0 with C=1, 1+1+1 = 1 with C=1**
+- Know : **0+0 = 0. 1+0 or 0+1 = 1, 1+1 = 0 with C=1, 1+1+1 = 1 with C=1**. This can be encapsulated by the **XOR** operator. XOR is 1 if the input bits are different, else zero. 
 - Use Constructs 1, 2
+
+#### Solution 2
+- **Heuristic 1 : XOR-ing and AND-ing is Addition**
+- Using the fact that bitwise addition can be encapsulated by XOR, we can show that the XOR can be applied to the entire number (not only bit by bit) and that will essentially perform the bitwise addition. However, the carry will not be taken care of. 
+- Therefore a+b == a ^ b (except carry).
+- The only scenario we can get a carry is when we do 1+1. This can be encapsulated by the & operator which outputs 1 only if both inputs are 1. We need to add the carry to the left (bitshift left by 1). Therefore carry can be expressed as (a&b) <<1
+- Combining the two, 
+  ```
+    public class Solution {
+        public int GetSum(int a, int b) {
+        while(b!=0)
+        {
+            int carry = (a&b) <<1;
+            int ans =  a ^ b ;
+            a = ans;
+            b = carry; 
+        }
+        return a; 
+        }
+
+    }
+  ```
+- Refer https://youtu.be/gVUrDV4tZfY

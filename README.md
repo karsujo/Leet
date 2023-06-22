@@ -322,7 +322,7 @@ public class Solution {
 
 ## 21 June 2023 : Wednesday
 
-### LC 543 : Diameter of Binary Tree
+### LC 543 : Diameter of Binary Tree*
 https://leetcode.com/problems/diameter-of-binary-tree/description/
 > My Solution
 ```
@@ -371,3 +371,121 @@ public class Solution {
   int maxVal = Math.Max(val1,val2) 
   int minVal = Math.Min(val1,val2) 
   ```
+
+### LC 1448 : Count Good Nodes in Binary Tree
+https://leetcode.com/problems/count-good-nodes-in-binary-tree/description/
+#### My Solution
+```
+public class Solution {
+    public int goodCount; 
+    
+    public int GoodNodes(TreeNode root) {
+
+        if(root.left==null && root.right==null)
+        return 1;
+
+        goodCount = 0; 
+
+        int[] arr = new int[100]; 
+
+        traverse(root,arr,0); 
+
+        return goodCount; 
+        
+    }
+
+    public void traverse(TreeNode n, int[] arr, int depth)
+    {
+        if(n==null)
+        return;
+
+        arr[depth] = n.val;
+
+        bool isGood = true; 
+
+        for(int j = 0; j<=depth; j++)
+        {
+            if(arr[j]>n.val)
+            {
+              isGood = false;
+              break;
+            }
+
+        }
+
+        if(isGood)
+        goodCount++; 
+
+        traverse(n.left, arr, depth+1);
+        traverse(n.right, arr, depth+1);
+    }
+}
+```
+- Straightforward approach, store all the node vals till the current depth, and check if the val at the current depth is max. if max, increment goodcounter.
+- If you want to keep track of values during recursion, but want to access them according to the current depth -- i.e, if you are inside the recursive loop at depth d on the left branch of the tree, and want to access the nodes value using depth as index --- use ARRAY. This way accessing at depth d will give the left or right node value based on which side the recursion is currently. 
+- If you just want to keep track of all values...irrespective of left or right branch, or order, or depth indexing, use a LIST. 
+- This is because with every stack frame, the current contents on the stack (arrays) are stored and then retrieved when the stackframe unwinds. 
+- Lists on the other hand are stored in the Heap. And this is not stored and retrieved, only one referece of this stays alive through out the recursion. So it will store values across all depths (order will not be same tho). 
+
+- **Heuristic - 2 : Recursive Tracking :**
+  ```
+  // For ordered access at depth : ARRAY : 
+  public void recurse(Node n, int[] arr, int d)
+  {
+    if(n==null)
+    return;
+
+    arr[d] = n.val;
+
+    recurse(n.left, arr, d+1);
+    recurse(n.right,arr, d+1);
+  }
+
+
+  //For just storing values -- order not important : LIST: 
+  public void recurse(Node n, List<int> lst)
+  {
+    if(n==null)
+    return;
+
+    lst.Add(n.val);
+
+    recurse(n.left,lst);
+    recurse(n.right,lst);
+  }
+  ```
+- While using arrays, C# forces us to predeclare the size of the array. Know that at each stack frame unwinding, a copy is produced -- so it is space hungry, and the size of the aray must be randomly determined for the problem -- here 100 works for all test cases. But sometimes if it is too large, you may run out of memory. 
+
+#### My (old) Optimized Solution
+
+- A more optimized way would be to avoid computing max at each node by looking at the array. We can compute max eagerly and popogate it : 
+
+```
+public class Solution {
+    public int GoodNodes(TreeNode root) {      
+        CountGoodNodes(root, root.val);
+        return Count;
+    }
+    
+    private int Count{get;set;} = 0;
+    
+    private void CountGoodNodes(TreeNode n,int max)
+    {
+        if(n==null)
+            return;
+        
+        if(n.val>max)
+        {
+          max = n.val;
+        }
+        if(max==n.val)
+        {
+            Count = Count+1;
+        }
+        
+        CountGoodNodes(n.left,max);
+        CountGoodNodes(n.right, max);
+        
+    }
+}
+```

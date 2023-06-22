@@ -319,3 +319,55 @@ public class Solution {
 - To prevent all the quirks, if input is the Min Int value return 0. Otherise the 0 indexing here ```if(Math.Pow(10, digitArray.Count()-1) * digitArray[0]> int.MaxValue)``` will throw an exception. (digitArray will be empty)
 - **Optimize** : Do the destructuring and constructing in the same loop. 
 - Refer : https://www.youtube.com/watch?v=HAgLH58IgJQ
+
+## 21 June 2023 : Wednesday
+
+### LC 543 : Diameter of Binary Tree
+https://leetcode.com/problems/diameter-of-binary-tree/description/
+> My Solution
+```
+public class Solution {
+       public int Diameter;
+    
+    public int DiameterOfBinaryTree(TreeNode root) {
+        Diameter = 0; 
+        getMaxDiameter(root);
+        return Diameter; 
+       
+    }
+
+    public void getMaxDiameter(TreeNode n)
+    {
+         if(n==null)
+          return ; 
+
+         Diameter = Math.Max(getNodeValue(n.left,0)+getNodeValue(n.right,0), Diameter);
+
+         getMaxDiameter(n.left);
+         getMaxDiameter(n.right);
+        
+    }
+
+    public int getNodeValue(TreeNode n, int val)
+    {
+     if(n==null)
+      return val; 
+
+      return Math.Max(getNodeValue(n.left,val+1), getNodeValue(n.right,val+1)); // return the largest distance to leaf
+    }
+
+
+}
+```
+- The diameter of the tree can be defined as the maximum distance between two leaves on a tree.
+- Divide and Conquer : A tree has a root and a left subtree and a right subtree. The diameter of a node is the sum of the longest distance on the left and the longest distance on the right
+- getNodeValue gives the longest distance from any given node to the root. ((recursive))
+- getMaxDiameter simply calculates the diameter at every node by calling getNodeValue for the left and right subtrees and adding them. 
+- It keeps track of the max diameter seen till now and returns it. 
+- **Concepts** : *Recursion, Stack Frames, Tree Traversal, Divide and Conquer*
+- When you want to get the largest, or smallest of two values, avoid using ternary operators. Instead,
+- **Construct - 5 : Max / Min :**
+- ```
+  int maxVal = Math.Max(val1,val2) 
+  int minVal = Math.Min(val1,val2) 
+  ```

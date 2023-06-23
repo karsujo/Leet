@@ -489,3 +489,82 @@ public class Solution {
     }
 }
 ```
+### 22 June 2023 : Thursday
+
+### Tree Traversals
+
+### PreOrder : Visit root before Leaves : "Pre" (refers to when the root is visited) Order
+```
+public class Solution {
+    public IList<int> PreorderTraversal(TreeNode root) {
+        return recurse(root, new List<int>());
+    }
+
+    public List<int> recurse(TreeNode n, List<int> lst){
+
+        if(n==null)
+        return lst;
+
+        lst.Add(n.val);
+        
+        recurse(n.left,lst);
+        recurse(n.right, lst);
+
+        return lst; 
+    }
+}
+```
+### InOrder : Visit Root In Order (Root second : Left-Root-Right)
+```
+public class Solution {
+    public IList<int> PreorderTraversal(TreeNode root) {
+        return recurse(root, new List<int>());
+    }
+
+    public List<int> recurse(TreeNode n, List<int> lst){
+
+        if(n==null)
+        return lst;
+
+        
+        recurse(n.left,lst);
+        
+        lst.Add(n.val);
+        
+        recurse(n.right, lst);
+
+        return lst; 
+    }
+}
+```
+### PostOrder : Visit Root after visiting the Leaves : "Post" Order
+```
+public class Solution {
+    public IList<int> PreorderTraversal(TreeNode root) {
+        return recurse(root, new List<int>());
+    }
+
+    public List<int> recurse(TreeNode n, List<int> lst){
+
+        if(n==null)
+        return lst;
+
+        
+        recurse(n.left,lst);
+        
+        recurse(n.right, lst);
+
+        lst.Add(n.val);
+
+        return lst; 
+    }
+}
+
+```
+
+```
+ The names of the traversals correspond to when the root is visited : 
+                 R
+               /   \
+             Left Right
+```

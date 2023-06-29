@@ -568,3 +568,77 @@ public class Solution {
                /   \
              Left Right
 ```
+
+### 28 June 23 Wednesday
+https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/
+### LC 167 :  Two Sum II - Input Array Is Sorted
+
+> My Soln
+```
+public class Solution {
+    public int[] TwoSum(int[] numbers, int target) {
+        // lin + binary search
+        for(int i=0; i<numbers.Length; i++)
+        {
+            int tar = numbers[i]; 
+            int findTar = target- numbers[i]; 
+            int res = binSearch(numbers, i+1, numbers.Length-1, findTar);
+            if(res != -1)
+            return new int[2]{i+1, res+1}; // result indices start from 1. 
+        }
+
+        return new int[2]; 
+    }
+
+    public int binSearch(int[] arr, int lo, int hi, int key)
+    {
+            if(lo>hi)
+            return -1; 
+
+            int mid = (lo+hi)/2;
+
+            if(arr[mid]==key)
+            return mid;
+
+            if(arr[mid]>key)
+            return binSearch(arr, lo, mid-1, key);
+            else
+            return binSearch(arr, mid+1, hi, key);
+    }
+}
+```
+- Simply perform a combo of lin + bin search
+- This is only possible bec the array is sorted.
+- O(nlogn), constant space.
+
+> Optimized soln
+
+```
+public class Solution {
+    public int[] TwoSum(int[] numbers, int target) {
+         // two pointer
+
+         int left = 0;
+         int right = numbers.Length-1; 
+
+         while(left<right)
+         {
+             int sum = numbers[left]+numbers[right] ;
+             if(sum == target)
+             return new int[2]{left+1, right+1};
+
+             if(sum > target)
+             right--;
+
+             else if(sum < target)
+             left++; 
+         }
+
+         return new int[2]{-1,-1}; 
+    }
+
+}
+```
+- Use two pointers. l,r. If sume > target, reduce r else reduce l.
+- O(n)
+

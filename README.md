@@ -645,6 +645,7 @@ public class Solution {
 ## 29 June 2023 : Thursday
 
 ### LC 74 :  Search a 2D Matrix
+https://leetcode.com/problems/search-a-2d-matrix/description/
 > My Soln (optimized)
 
 ```
@@ -677,7 +678,7 @@ public class Solution {
 }
 ```
 - The core idea is to just perform linear bin search as if its a 1 D array, but to know how to map the linear indexes to the matrix indexes.
-- Mapping : 
+- **Heuristic - 3 : Mapping 1D index to 2D index:**
 
 ```
               // for a given linear index i, the matrix index j,k can be calculated as : 

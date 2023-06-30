@@ -489,7 +489,7 @@ public class Solution {
     }
 }
 ```
-### 22 June 2023 : Thursday
+## 22 June 2023 : Thursday
 
 ### Tree Traversals
 
@@ -569,7 +569,7 @@ public class Solution {
              Left Right
 ```
 
-### 28 June 23 Wednesday
+## 28 June 23 Wednesday
 https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/
 ### LC 167 :  Two Sum II - Input Array Is Sorted
 
@@ -642,3 +642,47 @@ public class Solution {
 - Use two pointers. l,r. If sume > target, reduce r else reduce l.
 - O(n)
 
+## 29 June 2023 : Thursday
+
+### LC 74 :  Search a 2D Matrix
+> My Soln (optimized)
+
+```
+public class Solution {
+    //Optimize. Create 1d to 2d array mapping -- lol clever. You made it into a bin search problem cheeky! 
+    public bool SearchMatrix(int[][] matrix, int target) {
+        return FindElementIndex(matrix, 0, (matrix.Length*matrix[0].Length)-1, target)!=-1;
+    }
+    public int FindElementIndex(int[][] nums, int lo, int hi, int target)
+    {
+          if(hi>=lo)
+          {
+              int mid = (lo+hi)/2;
+
+              // for a given linear index i, the matrix index j,k can be calculated as : 
+              // j (col index) = i % (Length of Columns)
+              // k (row index) = i / (Length of Columns)
+
+              int curNum = nums[mid/nums[0].Length][mid%nums[0].Length];
+              if(curNum==target)
+              return mid; 
+              if(curNum>target)
+              return FindElementIndex(nums, lo, mid-1, target);
+              if(curNum<target)
+              return FindElementIndex(nums, mid+1, hi, target);
+          }
+          return -1; 
+    }
+
+}
+```
+- The core idea is to just perform linear bin search as if its a 1 D array, but to know how to map the linear indexes to the matrix indexes.
+- Mapping : 
+
+```
+              // for a given linear index i, the matrix index j,k can be calculated as : 
+              // j (col index) = i % (Length of Columns)
+              // k (row index) = i / (Length of Columns)
+```
+- You can verify this manually.
+- O(log(m*n)) : TC

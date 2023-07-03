@@ -678,6 +678,7 @@ public class Solution {
 }
 ```
 - The core idea is to just perform linear bin search as if its a 1 D array, but to know how to map the linear indexes to the matrix indexes.
+
 - **Heuristic - 3 : Mapping 1D index to 2D index:**
 
 ```
@@ -685,5 +686,37 @@ public class Solution {
               // j (col index) = i % (Length of Columns)
               // k (row index) = i / (Length of Columns)
 ```
+- Imagine the 2D array is made of concatenating two 1D arrays and this logic will make sense. 
 - You can verify this manually.
 - O(log(m*n)) : TC
+## 2 Jul 2023 : Sunday
+
+### LC 11 : Container With Most Water
+
+https://leetcode.com/problems/container-with-most-water/description/
+
+> My Soln (Two Pointer)
+
+```
+public class Solution {
+    public int MaxArea(int[] height) {
+       int lo = 0; 
+       int hi = height.Length-1;
+       int maxArea = 0; 
+       while(lo<hi)
+       {
+          int curArea = (hi-lo)*Math.Min(height[lo], height[hi]); 
+          maxArea = Math.Max(curArea, maxArea);
+          if(height[lo]<height[hi])
+          lo++; 
+          else
+          hi--;
+       }
+
+       return maxArea; 
+    }
+}
+```
+- Simple solution. Calculate the area, and update max.
+- We want to make sure we compute the max possible area so in each pass the pointer having the lower value is incremented/decremented and the pointer with the larger value is retained. 
+- O(n)

@@ -720,3 +720,78 @@ public class Solution {
 - Simple solution. Calculate the area, and update max.
 - We want to make sure we compute the max possible area so in each pass the pointer having the lower value is incremented/decremented and the pointer with the larger value is retained. 
 - O(n)
+
+## 5 Jul 2023 : Wednesday
+### LC 70 : Climbing Stairs
+https://leetcode.com/problems/min-cost-climbing-stairs/
+
+```
+public class Solution {
+    public int ClimbStairs(int n) {
+        return climb(0,n); 
+    }
+
+    public int climb(int n, int max)
+    {
+        if(n==max)
+        return 1;
+        if(n>max)
+        return 0; 
+
+        return climb(n+1, max) + climb(n+2, max); 
+    }
+}
+```
+- The key here is to know how to model a decision problem.
+- Here at each step you can either take one step (+1) or two steps (+2).So there are two choices of decisions so its an n-ary (bi-nary) decision tree.
+- If the left side adds +1, and right adds +2, then there will be many paths, and some of them will lead to the answer. We just need to count those paths. 
+- The above solution is a naive dfs where 1 is returned if we reach the number on a given path. But this is time intensive....a lof of redundant computation of already computed subtrees takes place.
+- A more optimal solution is to cache : 
+
+```
+public class Solution {
+    public Dictionary<int,int> cache = new Dictionary<int,int>(); 
+    public int ClimbStairs(int n) {
+        return climb(0,n); 
+    }
+
+    public int climb(int n, int max)
+    {
+
+        if(n>max)
+        return 0; 
+        if(n==max)
+        return 1;
+        if(cache.ContainsKey(n))
+        return cache[n]; 
+
+        int oneStep = 0;
+
+        if(!cache.ContainsKey(n+1))
+        {
+            oneStep =  climb(n+1, max);
+            cache.Add(n+1, oneStep);
+
+        }
+        else{
+            oneStep = cache[n+1]; 
+        }
+
+        int twoStep =  0;
+        if(!cache.ContainsKey(n+2))
+        {
+            twoStep = climb(n+2, max); 
+            cache.Add(n+2, twoStep);
+
+        }
+        else{
+            twoStep = cache[n+2]; 
+        }
+
+        return oneStep + twoStep; 
+    }
+}
+```
+- This is almost O(n)
+- Refer this video...however he goes further to use the fib series to optimize it, but I havent done that yet. 
+- https://www.youtube.com/watch?v=Y0lT9Fck7qI

@@ -795,3 +795,16 @@ public class Solution {
 - This is almost O(n)
 - Refer this video...however he goes further to use the fib series to optimize it, but I havent done that yet. 
 - https://www.youtube.com/watch?v=Y0lT9Fck7qI
+- **Heuristic - 4 : Model decision problems (or ones with many perm/combos) as Trees**
+```
+                     R
+                    / \
+                  dec1 dec2
+                 ...     ...
+                 /
+
+          ..   ..  ..   ..  ..  ..  .. 
+
+         Each path is a unique pattern
+
+```
